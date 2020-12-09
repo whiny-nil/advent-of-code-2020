@@ -8,7 +8,7 @@ TESTINPUT
 
 # helper methods
 def assert(value, expected_value)
-  puts (value == expected_value ? "." : "Failed: Expected #{expected_value}, got #{value}")
+  puts (value == expected_value ? "." : "Failed: Expected #{expected_value.inspect}, got #{value.inspect}")
 end
 
 def lines
