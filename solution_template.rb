@@ -11,14 +11,6 @@ def assert(value, expected_value)
   puts (value == expected_value ? "." : "Failed: Expected #{expected_value.inspect}, got #{value.inspect}")
 end
 
-def lines
-  @lines
-end
-
-def test_lines
-  @test_lines
-end
-
 # stuff for this problem
 def solution1(lines)
   return "Not implemented!"
@@ -28,8 +20,8 @@ def solution2(lines)
   return "Not implemented!"
 end
 
-assert(solution1(test_lines), nil)
-assert(solution2(test_lines), nil)
+assert(solution1(@test_lines), nil)
+assert(solution2(@test_lines), nil)
 
-puts "Solution 1: #{solution1(lines)}"
-puts "Solution 2: #{solution2(lines)}"
+puts "Solution 1: #{solution1(@lines)}"
+puts "Solution 2: #{solution2(@lines)}"
