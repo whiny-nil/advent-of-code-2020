@@ -1,3 +1,5 @@
+require 'byebug'
+
 ID = 0
 OFFSET = 1
 
@@ -30,6 +32,15 @@ def parse2(id_string)
   ids
 end
 
+def calc(a, b, offset)
+  i = 0
+  while true
+    i += 1
+    x = (a * i) + offset
+    return x if (x + b[OFFSET]) % b[ID] == 0
+  end
+end
+
 # stuff for this problem
 def solution1(lines)
   start_time, bus_ids = parse1(lines)
@@ -43,19 +54,27 @@ def solution1(lines)
   end
 end
 
-def solution2(id_string, earliest_time = 0)
-  bus_ids = parse2(id_string)
-  iter = bus_ids[0][ID]
+def solution2(id_string)
+  # Made a graph of some numbers to figure this shit out
+  buses = parse2(id_string)
 
-  # find the first multiple of the first id after the earliest time
-  until earliest_time % iter == 0
-    earliest_time += 1
+  # Take first two (number+offset) from ids (call a and b)
+  p = buses.shift[0]
+  o = 0
+
+  buses.each do |bus|
+    # Calculate first number which works for them:
+    o = calc(p, bus, o)
+  
+    # Calculate p, which is product of a[ID] and b[ID]
+    p = p * bus[ID]
+  
+    # Now, each subsequent number which works for them is (n * p) + o, where n is some integer
+    # So now, we can calculate every number which works for a and b
+    # We can repeat these steps for c, and d, etc until we have the answer
   end
 
-  while true do
-    return earliest_time if bus_ids.all? { |el| (earliest_time + el[OFFSET]) % el[ID] == 0 }
-    earliest_time += iter
-  end
+  o
 end
 
 assert(solution1(@test_lines), 295)
@@ -67,4 +86,4 @@ assert(solution2('67,7,x,59,61'), 1261476)
 assert(solution2('1789,37,47,1889'), 1202161486)
 
 puts "Solution 1: #{solution1(@lines)}"
-# puts "Solution 2: #{solution2(@lines[1], 100000000000000)}"
+puts "Solution 2: #{solution2(@lines[1])}"
